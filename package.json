@@ -1,0 +1,41 @@
+{
+  "name": "admindmd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shofwanalif/admindmd.git"
+  },
+  "author": "Megah Jaya Abadi IT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shofwanalif/admindmd/issues"
+  },
+  "homepage": "https://github.com/shofwanalif/admindmd#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-typescript": "^7.28.5",
+    "@jest/globals": "^30.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^7.2.0",
+    "babel-jest": "^30.3.0",
+    "jest": "^30.3.0",
+    "prisma": "^7.7.0",
+    "supertest": "^7.2.2",
+    "typescript": "^6.0.3"
+  }
+}
