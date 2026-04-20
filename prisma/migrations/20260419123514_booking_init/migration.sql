@@ -1,0 +1,15 @@
+-- CreateTable
+CREATE TABLE `Booking` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `nama` VARCHAR(191) NOT NULL,
+    `whatsapp` VARCHAR(191) NOT NULL,
+    `nopol` VARCHAR(191) NOT NULL,
+    `service` VARCHAR(191) NOT NULL,
+    `tanggal` DATETIME(3) NOT NULL,
+    `jam` VARCHAR(191) NOT NULL,
+    `status` ENUM('PENDING', 'CONFIRMED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
