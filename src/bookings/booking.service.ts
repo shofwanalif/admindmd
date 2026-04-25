@@ -4,7 +4,7 @@ import { Booking } from "../../prisma/generated/prisma/client";
 
 export const bookingService = {
   async createBooking(data: CreateBookingDTO) {
-    const { nama, whatsapp, service, tanggal, nopol, jam } = data;
+    const { nama, whatsapp, service, tanggal, nopol, jam, status } = data;
 
     return await prisma.booking.create({
       data: {
@@ -13,6 +13,7 @@ export const bookingService = {
         service,
         tanggal,
         nopol,
+        status: status || "PENDING",
         jam,
       },
     });
@@ -24,7 +25,6 @@ export const bookingService = {
         id: "asc",
       },
     });
-
     return data;
   },
 
@@ -36,7 +36,7 @@ export const bookingService = {
     const normalized = search.replace(/\s+/g, "").toLowerCase();
 
     const result = await prisma.$queryRaw<Booking[]>`
-       SELECT id, nama, nopol, service, tanggal, jam, status
+       SELECT id, nama, whatsapp, nopol, service, tanggal, jam, status
        FROM Booking
        WHERE REPLACE(nopol, ' ', '') LIKE ${"%" + normalized + "%"}
        ORDER BY tanggal ASC
@@ -45,12 +45,40 @@ export const bookingService = {
     return result;
   },
 
+  async getBookingToday() {
+    const today = new Date();
+    const startOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+    const endOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 1,
+    );
+
+    const data = await prisma.booking.findMany({
+      where: {
+        tanggal: {
+          gte: startOfDay,
+          lt: endOfDay,
+        },
+      },
+      orderBy: {
+        jam: "asc",
+      },
+    });
+
+    return data;
+  },
+
   async updateBooking(id: number, data: Partial<CreateBookingDTO>) {
     const booking = await prisma.booking.update({
       where: {
         id,
       },
-      data,
+      data: data as any,
     });
     return booking;
   },

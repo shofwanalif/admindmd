@@ -22,6 +22,12 @@ bookingRouter.get(
   bookingController.searchBookings,
 );
 
+bookingRouter.get(
+  "/get-booking-today",
+  authenticate,
+  bookingController.getBookingToday,
+);
+
 bookingRouter.put(
   "/update-booking/:id",
   authenticate,

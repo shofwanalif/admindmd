@@ -8,16 +8,16 @@ import cors from "cors";
 
 export const web = express();
 
-web.all("/api/auth/*splat", toNodeHandler(auth));
-
 web.use(express.json());
 web.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   }),
 );
+
+web.all("/api/auth/*splat", toNodeHandler(auth));
 
 web.use("/api/user", userRouter);
 web.use("/api/booking", bookingRouter);

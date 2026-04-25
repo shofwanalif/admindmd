@@ -1,11 +1,12 @@
 import { bookingService } from "./booking.service";
+import { updateBookingSchema } from "./booking.schema";
 import { Request, Response } from "express";
 import { logger } from "../application/logging";
 
 export const bookingController = {
   async createBooking(req: Request, res: Response) {
     try {
-      const { nama, whatsapp, service, tanggal, nopol, jam } = req.body;
+      const { nama, whatsapp, service, tanggal, nopol, jam, status } = req.body;
       const booking = await bookingService.createBooking({
         nama,
         whatsapp,
@@ -13,8 +14,10 @@ export const bookingController = {
         tanggal,
         nopol,
         jam,
+        status: status || "PENDING",
       });
-      res.json(booking);
+      res.status(200).json({ message: "Booking berhasil dibuat" });
+      logger.info("Booking berhasil dibuat", { data: booking });
     } catch (error) {
       logger.error(error);
       res.status(500).json({ error: "Internal server error" });
@@ -24,6 +27,9 @@ export const bookingController = {
   async getBookings(req: Request, res: Response) {
     try {
       const bookings = await bookingService.getBookings();
+      if (!bookings) {
+        return res.status(404).json({ error: "Belum ada data booking" });
+      }
       res.json({ data: bookings });
     } catch (error) {
       logger.error(error);
@@ -59,7 +65,7 @@ export const bookingController = {
   async updateBooking(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { nama, whatsapp, service, tanggal, nopol, jam } = req.body;
+      const { nama, whatsapp, service, tanggal, nopol, jam, status } = req.body;
       const booking = await bookingService.updateBooking(Number(id), {
         nama,
         whatsapp,
@@ -67,6 +73,7 @@ export const bookingController = {
         tanggal,
         nopol,
         jam,
+        status,
       });
       logger.info("Booking berhasil diperbarui", { data: booking });
       res.json({ message: "Booking berhasil diperbarui", data: booking });
@@ -83,6 +90,21 @@ export const bookingController = {
       res
         .status(200)
         .json({ message: "Booking berhasil dihapus", data: booking });
+    } catch (error) {
+      logger.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  async getBookingToday(req: Request, res: Response) {
+    try {
+      const bookings = await bookingService.getBookingToday();
+      if (!bookings) {
+        return res
+          .status(404)
+          .json({ error: "Tidak ada booking untuk hari ini" });
+      }
+      res.json({ data: bookings });
     } catch (error) {
       logger.error(error);
       res.status(500).json({ error: "Internal server error" });

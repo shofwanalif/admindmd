@@ -2,9 +2,12 @@
   "name": "admindmd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/main.js",
   "scripts": {
-    "test": "jest"
+    "build": "prisma generate && tsc",
+    "start": "node dist/src/main.js",
+    "test": "jest",
+    "migrate": "prisma migrate deploy"
   },
   "jest": {
     "transform": {

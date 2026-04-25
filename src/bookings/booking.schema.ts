@@ -38,6 +38,16 @@ export const createBookingSchema = z.object({
       /^([01]\d|2[0-3]):[0-5]\d$/,
       "Format jam tidak valid (contoh: 09:00)",
     ),
+
+  status: z
+    .enum(["PENDING", "CONFIRMED", "CANCELLED"], {
+      error: "Status tidak valid",
+    })
+    .optional()
+    .default("PENDING"),
 });
 
+export const updateBookingSchema = createBookingSchema.partial();
+
 export type CreateBookingDTO = z.infer<typeof createBookingSchema>;
+// export type UpdateBookingDTO = z.infer<typeof updateBookingSchema>;
