@@ -22,5 +22,9 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 6,
   },
 
-  trustedOrigins: ["http://localhost:3000", "http://localhost:4000"],
+  trustedOrigins: [
+    "http://localhost:3000",
+    "http://localhost:4000",
+    "https://dmdcarw-fe.vercel.app",
+  ],
 });

@@ -11,7 +11,11 @@ export const web = express();
 web.use(express.json());
 web.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://dmdcarw-fe.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   }),
